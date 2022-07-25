@@ -1,3 +1,49 @@
+<?php 
+require_once('config.php');
+
+if(isset($_POST['st_submit'])){
+	$st_name = $_POST['st_name'];
+	$st_email = $_POST['st_email'];
+	$st_mobile = $_POST['st_mobile'];
+	$st_father = $_POST['st_father'];
+	$st_father_mobile = $_POST['st_father_mobile'];
+	$st_mother = $_POST['st_mother'];
+	$st_gender = $_POST['st_gender'];
+	$st_birthday = $_POST['st_birthday'];
+	$st_address = $_POST['st_address'];
+	$st_password = $_POST['st_password'];
+}
+
+	// mobile and email counter here!
+    $countMobile = stRowCount('mobile',$mobile);
+    $countEmail = stRowCount('email',$email);
+
+
+	if(empty($st_name)){
+		$error = 'Name is required!';
+	}
+	else if(empty($st_email)){
+		$error = 'Email is required!';
+	}
+	else if(!filter_var($st_email, FILTER_VALIDATE_EMAIL)) {
+		$error = "Email is not valied!;
+	}
+	else if(!filter_var($st_email, FILTER_VALIDATE_EMAIL)) {
+		$error = "Email is not valied!;
+	}
+	else if($countEmail !=0 ){
+      $error = "Email address have been used, please try another!";
+    }
+	else if(empty($st_mobile)){
+		$error = "Mobile number is required!"
+	}
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,13 +107,23 @@
 					<h2 class="title-head">Student <span>registration</span></h2>
 					<p>Login Your Account <a href="login.php">Click here</a></p>
 				</div>	
-				<form class="contact-bx">
+				<form class="contact-bx" method="POST" action="">
+					<?php if(isset($error)): ?>
+						<div class="alert alert-danger">
+							<?php echo $error; ?>
+						</div>
+					<?php endif; ?>
+					<?php if(isset($success)): ?>
+						<div class="alert alert-success">
+							<?php echo $error; ?>
+						</div>
+					<?php endif; ?>
 					<div class="row placeani">
 						<div class="col-lg-12">
 							<div class="form-group">
 								<div class="input-group">
 									<label>Student Name</label>
-									<input name="st_name" type="text" required="" class="form-control">
+									<input name="st_name" type="text" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -75,7 +131,15 @@
 							<div class="form-group">
 								<div class="input-group">
 									<label>Email Address</label>
-									<input name="st_email" type="email" required="" class="form-control">
+									<input name="st_email" type="email" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="input-group">
+									<label>Your Mobile</label>
+									<input name="st_mobile" type="text" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -83,7 +147,7 @@
 							<div class="form-group">
 								<div class="input-group">
 									<label>Father's Name</label>
-									<input name="st_father" type="email" required="" class="form-control">
+									<input name="st_father" type="email" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -91,7 +155,7 @@
 							<div class="form-group">
 								<div class="input-group">
 									<label>Fathers's Mobile</label>
-									<input name="st_father_mobile" type="email" required="" class="form-control">
+									<input name="st_father_mobile" type="email" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -99,7 +163,7 @@
 							<div class="form-group">
 								<div class="input-group">
 									<label>Mother's Name</label>
-									<input name="st_mother" type="email" required="" class="form-control">
+									<input name="st_mother" type="email" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -121,7 +185,7 @@
 							<div class="form-group">
 							<div class="input-group"> 
 									<label>Address</label>
-									<input name="st_address" type="text" class="form-control" required="">
+									<input name="st_address" type="text" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -129,7 +193,7 @@
 							<div class="form-group">
 								<div class="input-group"> 
 									<label>Your Password</label>
-									<input name="st_password" type="password" class="form-control" required="">
+									<input name="st_password" type="password" class="form-control">
 								</div>
 							</div>
 						</div>

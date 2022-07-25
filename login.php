@@ -81,7 +81,7 @@
 							</div>
 						</div>
 						<div class="col-lg-12">
-							<div class="form-group form-forget">
+							<div class="form-group form-forget" method="POST" action="">
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" class="custom-control-input" id="customControlAutosizing">
 									<label class="custom-control-label" for="customControlAutosizing">Remember me</label>
