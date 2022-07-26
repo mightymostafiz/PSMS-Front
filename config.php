@@ -20,7 +20,7 @@
         $stm = $pdo->prepare("SELECT $col FROM students WHERE $col=?");
         $stm->execute(array($val));
         $count = $stm->rowCount();
-        return $count;
+        return $count;                                                    
       }
 
 ?>
