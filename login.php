@@ -1,6 +1,47 @@
+<?php 
+	require_once('config.php');
+
+	session_start();
+	// ======================== Login form er data catch Do ========
+	// form validetion condition check here
+	if(isset($_POST['st_login_btn'])){
+		$st_username = $_POST['st_username'];
+		$st_password = $_POST['st_password'];
+		
+
+		if(empty($st_username)){
+			$error = 'Enter Your Email Or Mobile';
+		}
+		else if(empty($st_password)){
+			$error = "Enter Your Password";
+		}
+		else{
+			$st_password = sha1($st_password);
+
+			$stCount = $pdo->prepare("SELECT * FROM students WHERE (email=? OR mobile=?) AND password=?");
+			$stCount->execute(array($st_username,$st_username,$st_password));
+			$loginCount = $stCount->rowCount();
+
+			if($loginCount == 1){
+				$stData = $stCount->fetchAll(PDO::FETCH_ASSOC);
+				$_SESSION['st_loggedin'] = $stData;
+				header('location:dashboard/index.php');
+			}
+			else{
+				$error = "Username or Password is Wrong";
+			}
+		}
+
+	}
+	if(isset($_SESSION['st_loggedin'])){
+		header('location:dashboard/index.php');
+	}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 
 <head>
 
@@ -62,13 +103,19 @@
 					<h2 class="title-head">Student <span>Login</span></h2>
 					<p>Don't have an account? <a href="registration.php">registration Here!</a></p>
 				</div>	
-				<form class="contact-bx">
+				<form class="contact-bx" method="POST" action="">
+					<?php if(isset($error)) :?>
+						<div class="alert alert-danger">
+							<?php echo $error; ?>
+						</div>
+					<?php endif; ?>
+
 					<div class="row placeani">
 						<div class="col-lg-12">
 							<div class="form-group">
 								<div class="input-group">
 									<label>Email or Mobile Number</label>
-									<input name="st_username" type="text" required="" class="form-control">
+									<input name="st_username" type="text" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -76,12 +123,12 @@
 							<div class="form-group">
 								<div class="input-group"> 
 									<label>Your Password</label>
-									<input name="st_password" type="password" class="form-control" required="">
+									<input name="st_password" type="password" class="form-control">
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
-							<div class="form-group form-forget" method="POST" action="">
+							<div class="form-group form-forget">
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" class="custom-control-input" id="customControlAutosizing">
 									<label class="custom-control-label" for="customControlAutosizing">Remember me</label>
