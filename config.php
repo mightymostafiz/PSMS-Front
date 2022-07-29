@@ -21,6 +21,17 @@
         $stm->execute(array($val));
         $count = $stm->rowCount();
         return $count;                                                    
-      }
+    }
+    // Get students data
+    function Student($col,$id){
+       global $pdo;
+       $stm = $pdo->prepare("SELECT $col FROM students WHERE id=?");
+       $stm->execute(array($id));
+       $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+       return $result[0][$col];
+    }
+
+
+
 
 ?>

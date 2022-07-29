@@ -2,7 +2,10 @@
 	require_once('config.php');
 
 	session_start();
-	// ======================== Login form er data catch Do ========
+    if(!isset($_SESSION['st_loggedin'])){
+        header('location:login.php');
+    }
+	// ========================  data catch Do ========
 	// form validetion condition check here
 	if(isset($_POST['st_login_btn'])){
 		$st_username = $_POST['st_username'];
@@ -64,11 +67,11 @@
 	<meta name="robots" content="" />
 	
 	<!-- DESCRIPTION -->
-	<meta name="description" content="PSMS- Student Login" />
+	<meta name="description" content="PSMS - Student Verification" />
 	
 	<!-- OG -->
-	<meta property="og:title" content="PSMS- Student Login" />
-	<meta property="og:description" content="PSMS- Student Login" />
+	<meta property="og:title" content="PSMS - Student Verification" />
+	<meta property="og:description" content="PSMS - Student Verification" />
 	<meta property="og:image" content="" />
 	<meta name="format-detection" content="telephone=no">
 	
@@ -77,7 +80,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
 	
 	<!-- PAGE TITLE HERE ============================================= -->
-	<title>PSMS- Student Login </title>
+	<title>PSMS - Student Verification </title>
 	
 	<!-- MOBILE SPECIFIC ============================================= -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -111,8 +114,8 @@
 		<div class="account-form-inner">
 			<div class="account-container">
 				<div class="heading-bx left">
-					<h2 class="title-head">Student <span>Login</span></h2>
-					<p>Don't have an account? <a href="registration.php">registration Here!</a></p>
+					<h2 class="title-head">Student <span>Verification</span></h2>
+					<p><b><u> <?php echo Student('name',$_SESSION['st_loggedin'][0]['id']); ?></u></b> Please Verify Your Account</p>
 				</div>	
 				<form class="contact-bx" method="POST" action="">
 					<?php if(isset($error)) :?>
