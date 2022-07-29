@@ -1,3 +1,8 @@
+<?php 
+	session_start();
+?>	
+	
+	
 	<!-- Header Top ==== -->
     <header class="header rs-nav">
 		<div class="top-bar">
@@ -11,8 +16,13 @@
 					</div>
 					<div class="topbar-right">
 						<ul>
-							<li><a href="login.php">Login</a></li>
-							<li><a href="registration.php">Register</a></li>
+							<?php if(isset($_SESSION['st_loggedin'])) : ?>
+								<li><a href="dashboard/index.php">Show Your Dashboard</a></li>
+							<?php else : ?>
+								<li><a href="login.php">Login</a></li>
+								<li><a href="registration.php">Register</a></li>
+							<?php endif; ?>
+
 						</ul>
 					</div>
 				</div>
@@ -117,7 +127,7 @@
 									<li><a href="blog-details.html">Blog Details</a></li>
 								</ul>
 							</li>
-							<li class="nav-dashboard"><a href="dashboard.php">Student Dashboard</a></li>
+							<li class="nav-dashboard"><a href="dashboard/index.php">Student Dashboard</a></li>
 						</ul>
 						<div class="nav-social-link">
 							<a href="javascript:;"><i class="fa fa-facebook"></i></a>
