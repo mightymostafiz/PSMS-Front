@@ -5,48 +5,113 @@
     if(!isset($_SESSION['st_loggedin'])){
         header('location:login.php');
     }
-	// ========================  data catch Do ========
-	// form validetion condition check here
-	if(isset($_POST['st_login_btn'])){
-		$st_username = $_POST['st_username'];
-		$st_password = $_POST['st_password'];
-		
 
-		if(empty($st_username)){
-			$error = 'Enter Your Email Or Mobile';
-		}
-		else if(empty($st_password)){
-			$error = "Enter Your Password";
+	// Email code send 
+	$user_id = $_SESSION['st_loggedin'][0]['id'];
+	if(isset($_POST['st_email_send_btn'])){
+		$user_email = Student('email',$user_id);
+
+	$code = rand(9999, 999999);
+
+	$subject = "PSMS - Email Verification";
+	$message = "
+	<html>
+	<head>
+		<title>PSMS - Email Verification</title>
+	</head>
+	<body>
+		<p><b>PSMS - Email Verification</b></p>
+	<table>
+	<tr>
+		<th>Code</th>
+		<th>.$code.</th>
+	</tr>
+	</table>
+	<p>Thanks.</p>
+	</body>
+	</html>
+	";
+
+		// Always set content-type when sending HTML email
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		// More headers..
+		$headers .= 'From: <.$user_email.>' . "\r\n";
+
+		$send_mail = mail($user_email,$subject,$message,$headers);
+
+		if($send_mail == true){
+			$stm = $pdo->prepare("UPDATE students SET email_code=? WHERE id=?");
+			$stm =  execute(array($code,$user_id));
+
+			$_SESSION['email_code_send'] = 1;
+			$success = "Email Code Send Successfully, Please check Register Email";
 		}
 		else{
-			$st_password = sha1($st_password);
-
-			$stCount = $pdo->prepare("SELECT * FROM students WHERE (email=? OR mobile=?) AND password=?");
-			$stCount->execute(array($st_username,$st_username,$st_password));
-			$loginCount = $stCount->rowCount();
-
-			if($loginCount == 1){
-				$stData = $stCount->fetchAll(PDO::FETCH_ASSOC);
-				$_SESSION['st_loggedin'] = $stData;
-
-				// Verify student data
-				$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'] [0] ['id']);
-				$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'] [0] ['id']);
-
-				if($is_email_verified == 1 AND $is_mobile_verified == 1){
-					header('location:dashboard/index.php');
-				}
-				else{
-					header('location:verify.php');
-				}
-
-			}
-			else{
-				$error = "Username or Password is Wrong";
-			}
+			$error = "Email Send Failed!";
 		}
-
 	}
+
+	// Email code verify
+	if(isset($_POST['st_email_verify_btn'])){
+		$st_code = $_POST['st_email_code'];
+		$db_code = Student('email_code',$user_id);
+		if(empty($st_code)){
+			$error = "Email code is required!";
+		}
+		else if($st_code != $db_code){
+			$error = "Email code dosen't match!";
+		}
+		else{
+			$stm = $pdo->prepare("UPDATE students SET email_code=?, is_email_verified=? WHERE id=?");
+			$stm =  execute(array(null,1,$user_id));
+			unset ($_SESSION['email_code_send']);
+			$success = "Email verify successfully done!";
+		}
+	}
+
+
+	// // form validetion condition check here
+	// if(isset($_POST['st_login_btn'])){
+	// 	$st_username = $_POST['st_username'];
+	// 	$st_password = $_POST['st_password'];
+		
+
+	// 	if(empty($st_username)){
+	// 		$error = 'Enter Your Email Or Mobile';
+	// 	}
+	// 	else if(empty($st_password)){
+	// 		$error = "Enter Your Password";
+	// 	}
+	// 	else{
+	// 		$st_password = sha1($st_password);
+
+	// 		$stCount = $pdo->prepare("SELECT * FROM students WHERE (email=? OR mobile=?) AND password=?");
+	// 		$stCount->execute(array($st_username,$st_username,$st_password));
+	// 		$loginCount = $stCount->rowCount();
+
+	// 		if($loginCount == 1){
+	// 			$stData = $stCount->fetchAll(PDO::FETCH_ASSOC);
+	// 			$_SESSION['st_loggedin'] = $stData;
+
+	// 			// Verify student data
+	// 			$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'] [0] ['id']);
+	// 			$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'] [0] ['id']);
+
+	// 			if($is_email_verified == 1 AND $is_mobile_verified == 1){
+	// 				header('location:dashboard/index.php');
+	// 			}
+	// 			else{
+	// 				header('location:verify.php');
+	// 			}
+
+	// 		}
+	// 		else{
+	// 			$error = "Username or Password is Wrong";
+	// 		}
+	// 	}
+
+	// }
 	// if(isset($_SESSION['st_loggedin'])){
 	// 	header('location:dashboard/index.php');
 	// }
@@ -117,44 +182,82 @@
 					<h2 class="title-head">Student <span>Verification</span></h2>
 					<p><b><u> <?php echo Student('name',$_SESSION['st_loggedin'][0]['id']); ?></u></b> Please Verify Your Account</p>
 				</div>	
-				<form class="contact-bx" method="POST" action="">
-					<?php if(isset($error)) :?>
+
+				<?php if(isset($error)) :?>
 						<div class="alert alert-danger">
 							<?php echo $error; ?>
 						</div>
 					<?php endif; ?>
 
+					<?php 
+						$email_status = Student('is_email_verified', $_SESSION['st_loggedin'][0]['id']);
+						$mobile_status = Student('is_mobile_verified', $_SESSION['st_loggedin'][0]['id']);
+					?>
+					<p>Email :
+						<?php 
+							if($email_status === 1 ){
+								echo '<span class="badge badge-success">Verified</span>';
+							}
+							else{
+								echo '<span class="badge badge-danger">Not Verified</span>';
+							}
+						?>
+					</p>
+					<p>Mobile : 
+						<?php 
+							if($mobile_status === 1 ){
+								echo '<span class="badge badge-success">Verified</span>';
+							}
+							else{
+								echo '<span class="badge badge-danger">Not Verified</span>';
+							}
+						?>
+					</p>
+
+				<!-- send email form -->
+				<?php if(isset($_SESSION['email_code_send']) == 1) : ?>
+					<form class="contact-bx" method="POST" action="">
+						<div class="row placeani">
+							<div class="col-lg-12">
+								<div class="form-group">
+								<button name="st_email_send_btn" type="submit" class="btn button-md">Resend Email Code</button>
+								</div>
+							</div>
+							</div>
+						</div>
+					</form>
+
+						<form class="contact-bx" method="POST" action="">
+							<div class="row placeani">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<div class="input-group">
+											<label>Enter Your Code</label>
+											<input name="st_email_code" type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 m-b30">
+									<button name="st_email_verify_btn" type="submit" value="Submit" class="btn button-md">Email Verify</button>
+								</div>
+							</div>
+						</form>
+
+				<?php else : ?>
+
+				<!-- Verify Email -->
+				<form class="contact-bx" method="POST" action="">
 					<div class="row placeani">
 						<div class="col-lg-12">
 							<div class="form-group">
-								<div class="input-group">
-									<label>Email or Mobile Number</label>
-									<input name="st_username" type="text" class="form-control">
-								</div>
+							<button name="st_email_send_btn" type="submit" class="btn button-md">Click Here to Verify Email</button>
 							</div>
 						</div>
-						<div class="col-lg-12">
-							<div class="form-group">
-								<div class="input-group"> 
-									<label>Your Password</label>
-									<input name="st_password" type="password" class="form-control">
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-12">
-							<div class="form-group form-forget">
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-									<label class="custom-control-label" for="customControlAutosizing">Remember me</label>
-								</div>
-								<a href="forget-password.php" class="ml-auto">Forgot Password?</a>
-							</div>
-						</div>
-						<div class="col-lg-12 m-b30">
-							<button name="st_login_btn" type="submit" value="Submit" class="btn button-md">Login</button>
 						</div>
 					</div>
 				</form>
+
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
