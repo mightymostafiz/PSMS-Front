@@ -187,7 +187,12 @@
 						<div class="alert alert-danger">
 							<?php echo $error; ?>
 						</div>
-					<?php endif; ?>
+				<?php endif; ?>
+				<?php if(isset($success)) :?>
+						<div class="alert alert-success">
+							<?php echo $success; ?>
+						</div>
+				<?php endif; ?>
 
 					<?php 
 						$email_status = Student('is_email_verified', $_SESSION['st_loggedin'][0]['id']);
@@ -243,9 +248,10 @@
 							</div>
 						</form>
 
-				<?php else : ?>
+				<?php endif; ?>
 
 				<!-- Verify Email -->
+				<?php if($email_status !=1 AND !isset($_SESSION['email_code_send']) == 1) : ?>
 				<form class="contact-bx" method="POST" action="">
 					<div class="row placeani">
 						<div class="col-lg-12">
