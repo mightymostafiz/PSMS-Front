@@ -51,7 +51,7 @@
 			header('location:dashboard/index.php');
 		}
 		else{
-			header('location:dashboard/verify.php');
+			header('location:dashboard/login.php');
 		}
 	}
 
