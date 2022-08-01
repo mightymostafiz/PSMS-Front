@@ -30,6 +30,9 @@
 .sticky-top {
 	top:100px;
 }
+.profile-i{
+	color: #1fd36b;
+}
 .header {
     position: relative;
     z-index: 99999;

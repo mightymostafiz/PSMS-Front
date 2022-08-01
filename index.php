@@ -11,20 +11,24 @@
 	<meta name="robots" content="" />
 	
 	<!-- DESCRIPTION -->
-	<meta name="description" content="PSMS- Primary School Management System" />
+	<meta name="description" content="PSMS - Primary School Management System" />
 	
 	<!-- OG -->
-	<meta property="og:title" content="PSMS- Primary School Management System" />
-	<meta property="og:description" content="PSMS- Primary School Management System" />
+	<meta property="og:title" content="PSMS - Primary School Management System" />
+	<meta property="og:description" content="PSMS - Primary School Management System" />
 	<meta property="og:image" content="" />
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- FAVICONS ICON ============================================= -->
 	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+
+	<!-- Fontawasome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+	
 	
 	<!-- PAGE TITLE HERE ============================================= -->
-	<title>PSMS- Primary School Management System</title>
+	<title>PSMS - Primary School Management System</title>
 	
 	<!-- MOBILE SPECIFIC ============================================= -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
