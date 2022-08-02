@@ -100,6 +100,7 @@
 
 			if($insertStatus == true){
 				$succes = 'Your Registraion Successfully Done!';
+				header('location:login.php');
 			}
 			else{
 				$error = 'Registration Faeild please try again!'; 

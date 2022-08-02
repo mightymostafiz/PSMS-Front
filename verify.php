@@ -47,7 +47,7 @@
 			$stm =  execute(array($code,$user_id));
 
 			$_SESSION['email_code_send'] = 1;
-			$success = "Email Code Send Successfully, Please check Register Email";
+			$success = "Email Code Send Successfully, Check Register Email";
 		}
 		else{
 			$error = "Email Send Failed!";
@@ -86,7 +86,7 @@
 		$stm->execute(array($code,$user_id));
 
 		$_SESSION['mobile_code_send'] = 1;
-		$success = "Mobile Code Send Successfully, Please check Register Mobile";
+		$success = "Mobile Code Send Successfully, Check Your Register Mobile Number";
 		
 	}
 	// mobile verify
@@ -171,50 +171,49 @@
 			<div class="account-container">
 				<div class="heading-bx left">
 					<h2 class="title-head">Student <span>Verification</span></h2>
-					<p><b><u> <?php echo Student('name',$_SESSION['st_loggedin'][0]['id']); ?></u></b> Please Verify Your Account</p>
+					<p><u><?php echo Student('name',$_SESSION['st_loggedin'][0]['id']); ?></u> Please Verify Your Account</p>
 				</div>	
-
-				<?php if(isset($error)) :?>
+				
+					<?php if(isset($error)) :?>
 					<div class="alert alert-danger">
 						<?php echo $error;?>
 					</div>
-				<?php endif;?>
+					<?php endif;?>
 
-				<?php if(isset($success)) :?>
+					<?php if(isset($success)) :?>
 					<div class="alert alert-success">
 						<?php echo $success;?>
 					</div>
-				<?php endif;?>
+					<?php endif;?>
 					<?php 
-						$email_status = Student('is_email_verified', $_SESSION['st_loggedin'][0]['id']);
-						$mobile_status = Student('is_mobile_verified', $_SESSION['st_loggedin'][0]['id']);
-
+						$email_status =  Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']); 
+						$mobile_status =  Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']); 
+					
 
 						if(isset($_SESSION['st_loggedin']) AND $email_status == 1 AND $mobile_status == 1){
 							header('location:dashboard/index.php');
 						}
+						
 
-					?>
-					<p>Email: 
-						<?php if($email_status == 1){
+					?> 
+					<p>Email: <?php  
+						if($email_status == 1){
 							echo '<span class="badge badge-success" >Verified</span>';
-						}
-						else{
+						}else{
 							echo '<span class="badge badge-danger" >Not Verified</span>';
-						}?>
-					</p>
+						} 
+					?></p>
 					<p>Mobile:
-						<?php 
-							if($mobile_status == 1){
-								echo '<span class="badge badge-success" >Verified</span>';
-							}
-						else{
+					<?php 
+						if($mobile_status == 1){
+							echo '<span class="badge badge-success" >Verified</span>';
+						}else{
 							echo '<span class="badge badge-danger" >Not Verified</span>';
-						}?> 
+						} 
+					?> 
 					</p>
-
-				<!-- Send email form -->
 				<?php if(isset($_SESSION['email_code_send'])  == 1) :?>
+
 					<form class="contact-bx" method="POST" action="">
 						<div class="row placeani"> 
 							<div class="col-lg-12 m-b30">
@@ -241,9 +240,6 @@
 						</div> 
 					</form> 
 				<?php endif;?>
-
-				<!-- Verify Email -->
-
 				<?php if($email_status != 1 AND !isset($_SESSION['email_code_send'])) : ?>
 				<form class="contact-bx" method="POST" action="">
 					<div class="row placeani"> 
@@ -253,46 +249,18 @@
 					</div> 
 				</form>
 				<?php endif;?>
+				
 
-				<!-- Verify Mobile -->
+
+				<!-- For Mobile Verification -->
 				<?php if(isset($_SESSION['mobile_code_send'])  == 1) :?>
-					<form class="contact-bx" method="POST" action="">
-						<div class="row placeani"> 
-							<div class="col-lg-12 m-b30">
-								<button name="st_mobile_send_btn" type="submit" class="btn button-md">Resend Mobile Code</button>
-							</div> 
-						</div> 
-					</form>
 
-
-					<form class="contact-bx" method="POST" action="">
-						<div class="row placeani">
-							<div class="col-lg-12">
-								<div class="form-group">
-									<div class="input-group">
-										<label>Enter Your Code</label>
-										<input name="st_mobile_code" type="text" class="form-control">
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12 m-b30">
-								<button name="st_mobile_verify_btn" type="submit" value="Submit" class="btn button-md">Mobile Verify</button>
-							</div>
-						</div>
-					</form>
-
-					<?php endif; ?>
-
-				<?php if($mobile_status !=1 AND !isset($_SESSION['mobile_code_send']) == 1) : ?>
 				<form class="contact-bx" method="POST" action="">
-					<div class="row placeani">
-						<div class="col-lg-12">
-							<div class="form-group">
-							<button name="st_mobile_send_btn" type="submit" class="btn button-md">Click Here to Verify Mobile</button>
-							</div>
-						</div>
-						</div>
-					</div>
+					<div class="row placeani"> 
+						<div class="col-lg-12 m-b30">
+							<button name="st_mobile_send_btn" type="submit" class="btn button-md">Resend Mobile Code</button>
+						</div> 
+					</div> 
 				</form>
 
 				<form class="contact-bx" method="POST" action="">
@@ -313,8 +281,6 @@
 					</div> 
 				</form> 
 				<?php endif;?>
-
-				<!-- Verify Mobile -->
 				<?php if($mobile_status != 1 AND !isset($_SESSION['mobile_code_send'])) : ?>
 				<form class="contact-bx" method="POST" action="">
 					<div class="row placeani"> 
@@ -324,6 +290,9 @@
 					</div> 
 				</form>
 				<?php endif;?>
+
+				<!-- For Mobile Verification -->
+
 			</div>
 		</div>
 	</div>
@@ -342,7 +311,9 @@
 <script src="assets/vendors/masonry/filter.js"></script>
 <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="assets/js/contact.js"></script>
+<script src="assets/js/contact.js"></script> 
 </body>
+
+</html>
 
 </html>

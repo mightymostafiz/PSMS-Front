@@ -39,6 +39,10 @@ if(!isset($_SESSION['st_loggedin'])){
 	
 	<!-- MOBILE SPECIFIC ============================================= -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- FONT AWASOME CDN============================================= -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
 	
 	<!--[if lt IE 9]>
 	<script src="assets/js/html5shiv.min.js"></script>
@@ -320,22 +324,28 @@ if(!isset($_SESSION['st_loggedin'])){
 		                	<span class="ttr-label">Add listing</span>
 		                </a>
 		            </li>
-					<li>
-						<a href="#" class="ttr-material-button">
-							<span class="ttr-icon"><i class="ti-user"></i></span>
-		                	<span class="ttr-label">My Profile</span>
-		                	<span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-		                </a>
-		                <ul>
-		                	<li>
-		                		<a href="user-profile.html" class="ttr-material-button"><span class="ttr-label">User Profile</span></a>
-		                	</li>
-		                	<li>
-		                		<a href="teacher-profile.html" class="ttr-material-button"><span class="ttr-label">Teacher Profile</span></a>
-		                	</li>
-		                </ul>
-		            </li>
 		            <li class="ttr-seperate"></li>
+					<!-- Profile -->
+					<li>
+						<a href="add-listing.html" class="ttr-material-button">
+							<span class="ttr-icon"><i class="fas fa-user"></i></span>
+		                	<span class="ttr-label">My Profile</span>
+		                </a>
+		            </li>
+					<!-- Change Password -->
+					<li>
+						<a href="change-password.php" class="ttr-material-button">
+							<span class="ttr-icon"><i class="fas fa-lock"></i></span>
+		                	<span class="ttr-label">Change Password</span>
+		                </a>
+		            </li>
+					<!-- Logout -->
+					<li>
+						<a href="logout.php" class="ttr-material-button">
+							<span class="ttr-icon"><i class="fas fa-sign-out-alt"></i></span>
+		                	<span class="ttr-label">Logout</span>
+		                </a>
+		            </li>
 				</ul>
 				<!-- sidebar menu end -->
 			</nav>

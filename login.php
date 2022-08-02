@@ -1,66 +1,62 @@
 <?php 
-	require_once('config.php');
+require_once('config.php');
+session_start();
 
-	session_start();
-	// ======================== Login form er data catch Do ========
-	// form validetion condition check here
-	if(isset($_POST['st_login_btn'])){
-		$st_username = $_POST['st_username'];
-		$st_password = $_POST['st_password'];
+if(isset($_POST['st_login_btn'])){
+	$st_username = $_POST['st_username']; 
+	$st_password = $_POST['st_password'];
+ 
+	if(empty($st_username)){
+		$error = "Email or Mobile is Required!";
+	} 
+	else if(empty($st_password)){
+        $error = "Password is Required!";
+    } 
+	else{
 		
-
-		if(empty($st_username)){
-			$error = 'Enter Your Email Or Mobile';
-		}
-		else if(empty($st_password)){
-			$error = "Enter Your Password";
-		}
-		else{
-			$st_password = sha1($st_password);
-
-			$stCount = $pdo->prepare("SELECT * FROM students WHERE (email=? OR mobile=?) AND password=?");
-			$stCount->execute(array($st_username,$st_username,$st_password));
-			$loginCount = $stCount->rowCount();
-
-			if($loginCount == 1){
-				$stData = $stCount->fetchAll(PDO::FETCH_ASSOC);
-				$_SESSION['st_loggedin'] = $stData;
-
-				// Verify student data
-				$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'] [0] ['id']);
-				$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'] [0] ['id']);
-
-				if($is_email_verified == 1 AND $is_mobile_verified == 1){
-					header('location:dashboard/index.php');
-				}
-				else{
-					header('location:verify.php');
-				}
-
+		$st_password = SHA1($st_password);
+		// Find Login User 
+		$stCount = $pdo->prepare("SELECT id,email,mobile FROM students WHERE (email=? OR mobile=?) AND password=?");
+		$stCount->execute(array($st_username,$st_username,$st_password));
+		$loginCount = $stCount->rowCount(); 
+		if($loginCount == 1){
+			$stData = $stCount->fetchAll(PDO::FETCH_ASSOC);
+			$_SESSION['st_loggedin'] = $stData;
+			// Get Verify Status
+			$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']);
+			$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']);
+			
+			if($is_email_verified == 1 AND $is_mobile_verified == 1){
+				header('location:dashboard/index.php');
 			}
 			else{
-				$error = "Username or Password is Wrong";
+				header('location:verify.php');
 			}
-		}
-
-	}
-	if(isset($_SESSION['st_loggedin'])){
-		$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'] [0] ['id']);
-		$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'] [0] ['id']);
-		if($is_email_verified == 1 AND $is_mobile_verified ==1 ){
-			header('location:dashboard/index.php');
+			
 		}
 		else{
-			header('location:dashboard/login.php');
-		}
+			$error = "Username or Password is Wrong!";
+		} 
+	} 
+}
+
+if(isset($_SESSION['st_loggedin'])){
+	$is_email_verified = Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']);
+	$is_mobile_verified = Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']);
+	
+	if($is_email_verified == 1 AND $is_mobile_verified == 1){
+		header('location:dashboard/index.php');
 	}
+	else{
+		header('location:verify.php');
+	}
+	 
+}
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 	<!-- META ============================================= -->
@@ -71,11 +67,11 @@
 	<meta name="robots" content="" />
 	
 	<!-- DESCRIPTION -->
-	<meta name="description" content="PSMS- Student Login" />
+	<meta name="description" content="PSMS - Student Login" />
 	
 	<!-- OG -->
-	<meta property="og:title" content="PSMS- Student Login" />
-	<meta property="og:description" content="PSMS- Student Login" />
+	<meta property="og:title" content="PSMS - Student Login" />
+	<meta property="og:description" content="PSMS - Student Login" />
 	<meta property="og:image" content="" />
 	<meta name="format-detection" content="telephone=no">
 	
@@ -84,7 +80,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
 	
 	<!-- PAGE TITLE HERE ============================================= -->
-	<title>PSMS- Student Login </title>
+	<title>PSMS - Student Login</title>
 	
 	<!-- MOBILE SPECIFIC ============================================= -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -119,28 +115,28 @@
 			<div class="account-container">
 				<div class="heading-bx left">
 					<h2 class="title-head">Student <span>Login</span></h2>
-					<p>Don't have an account? <a href="registration.php">registration Here!</a></p>
+					<p>Don't have an account? <a href="registration.php">Registration Now</a></p>
 				</div>	
 				<form class="contact-bx" method="POST" action="">
 					<?php if(isset($error)) :?>
 						<div class="alert alert-danger">
-							<?php echo $error; ?>
+							<?php echo $error;?>
 						</div>
-					<?php endif; ?>
+					<?php endif;?>
 
 					<div class="row placeani">
 						<div class="col-lg-12">
 							<div class="form-group">
 								<div class="input-group">
 									<label>Email or Mobile Number</label>
-									<input name="st_username" type="text" class="form-control">
+									<input name="st_username" type="text"  class="form-control">
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
 								<div class="input-group"> 
-									<label>Your Password</label>
+									<label>Password</label>
 									<input name="st_password" type="password" class="form-control">
 								</div>
 							</div>
@@ -157,6 +153,7 @@
 						<div class="col-lg-12 m-b30">
 							<button name="st_login_btn" type="submit" value="Submit" class="btn button-md">Login</button>
 						</div>
+					 
 					</div>
 				</form>
 			</div>
@@ -177,7 +174,7 @@
 <script src="assets/vendors/masonry/filter.js"></script>
 <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="assets/js/contact.js"></script>
+<script src="assets/js/contact.js"></script> 
 </body>
 
 </html>

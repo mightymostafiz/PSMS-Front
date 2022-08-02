@@ -6,7 +6,7 @@
 	$mobile_status =  Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']); 
 
 	if(!isset($_SESSION['st_loggedin']) OR $email_status != 1 OR $mobile_status != 1){
-    	header('location:logout.php'); 
+    	header('location:login.php'); 
 	}
 ?>	
 	
