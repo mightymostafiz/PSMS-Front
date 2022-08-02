@@ -24,7 +24,7 @@
 					<div class="topbar-right">
 						<ul>
 							<?php if(isset($_SESSION['st_loggedin'])) : ?>
-								<li><a href="dashboard/index.php"><h6><?php echo Student('name', $_SESSION['st_loggedin'][0]['id']) ; ?>&nbsp<i class="fas fa-user"></i></h6></a></li>
+								<li><a href="dashboard/index.php"><h6><?php echo Student('name', $_SESSION['st_loggedin'][0]['id']) ; ?>&nbsp<i style="color:green" class="fas fa-user"></i></h6></a></li>
 							<?php else : ?>
 								<li><a href="login.php">Login</a></li>
 								<li><a href="registration.php">Register</a></li>

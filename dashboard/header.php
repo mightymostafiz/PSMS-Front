@@ -327,7 +327,7 @@ if(!isset($_SESSION['st_loggedin'])){
 		            <li class="ttr-seperate"></li>
 					<!-- Profile -->
 					<li>
-						<a href="add-listing.html" class="ttr-material-button">
+						<a href="profile.php" class="ttr-material-button">
 							<span class="ttr-icon"><i class="fas fa-user"></i></span>
 		                	<span class="ttr-label">My Profile</span>
 		                </a>
