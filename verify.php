@@ -80,7 +80,7 @@
 		$msg = "Your code is: ".$code;
 		$message = urlencode("$msg");
 
-		$smsresult = file_get_contents("http://66.45.237.70/api.php?username=01751331330&password=Ashik@Showpur&number=88".$user_mobile."&message=$message");
+		$smsresult = file_get_contents("http://66.45.237.70/api.php?username=017xxxxxxx&password=xxxxxxxxxx=88".$user_mobile."&message=$message");
 		
 		$stm = $pdo->prepare("UPDATE students SET mobile_code=? WHERE id=?");
 		$stm->execute(array($code,$user_id));

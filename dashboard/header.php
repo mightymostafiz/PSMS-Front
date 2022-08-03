@@ -1,9 +1,15 @@
 <?php 
 require_once('../config.php');
 session_start();
+
+$email_status = Student('is_email_verified', $_SESSION['st_loggedin'][0]['id']);
+$mobile_status = Student('is_mobile_verified', $_SESSION['st_loggedin'][0]['id']);
+
 if(!isset($_SESSION['st_loggedin'])){
-    header('location:../login.php');
+    header('location:logout.php');
 }
+
+$photo = Student('photo', $_SESSION['st_loggedin'][0]['id']); 
 
 ?>
 
@@ -185,7 +191,13 @@ if(!isset($_SESSION['st_loggedin'])){
 						</div>
 					</li>
 					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+						<a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar">
+							<?php if($photo != null): ?>
+								<img alt="" src="<?php echo $photo; ?>" width="32" height="32">
+							<?php else : ?>
+								<img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32">
+							<?php endif; ?>
+							</span></a>
 						<div class="ttr-header-submenu">
 							<ul>
 								<li><a href="user-profile.html">My profile</a></li>
