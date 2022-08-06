@@ -287,7 +287,7 @@ $photo = Student('photo', $_SESSION['st_loggedin'][0]['id']);
 		            </li>
 
 					<li>
-						<a href="class.php" class="ttr-material-button">
+						<a href="class-routine.php" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Class Routine</span>
 		                </a>
