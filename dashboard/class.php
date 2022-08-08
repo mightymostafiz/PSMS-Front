@@ -84,7 +84,7 @@ if(isset($_POST['create_btn'])){
 									</div>
 									
 									<div class="col-12">
-										<button type="submit" class="btn" name="create_btn" style="margin-top:100px;">Save changes</button>
+										<button type="submit" class="btn" name="create_btn" style="margin-top:100px;">Registraion</button>
 									</div>
 								</div>
 							</form>

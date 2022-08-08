@@ -2,12 +2,12 @@
 	session_start();
 	require_once('config.php');
 
-	$email_status =  Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']); 
-	$mobile_status =  Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']); 
+	// $email_status =  Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']); 
+	// $mobile_status =  Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']); 
 
-	if(!isset($_SESSION['st_loggedin']) OR $email_status != 1 OR $mobile_status != 1){
-    	header('location:login.php'); 
-	}
+	// if(!isset($_SESSION['st_loggedin']) OR $email_status != 1 OR $mobile_status != 1){
+ //    	header('location:login.php'); 
+	// }
 ?>	
 	
 	<!-- Header Top ==== -->

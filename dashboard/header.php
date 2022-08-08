@@ -6,7 +6,7 @@ $email_status = Student('is_email_verified', $_SESSION['st_loggedin'][0]['id']);
 $mobile_status = Student('is_mobile_verified', $_SESSION['st_loggedin'][0]['id']);
 
 if(!isset($_SESSION['st_loggedin'])){
-    header('location:logout.php');
+    header('location:../login.php');
 }
 
 $photo = Student('photo', $_SESSION['st_loggedin'][0]['id']); 
