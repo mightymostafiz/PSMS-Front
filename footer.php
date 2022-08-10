@@ -1,5 +1,5 @@
-<!-- Footer ==== -->
-<footer>
+	<!-- Footer ==== -->
+    <footer>
         <div class="footer-top">
 			<div class="pt-exebar">
 				<div class="container">
@@ -98,9 +98,30 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 text-center"><a target="_blank" href="https://www.coderitsoluton.com">&copy Devolope By Coder IT Solutions Batch-9 <?php echo date('Y'); ?> </a></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center"><a target="_blank" href="https://coderitsolution.com">&copy; <?php echo date('Y');?> PSMS Develop by Coder IT Solution Batch-9</a></div>
                 </div>
             </div>
         </div>
     </footer>
     <!-- Footer END ==== -->
+    <button class="back-to-top fa fa-chevron-up" ></button>
+</div>
+
+<!-- External JavaScripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="assets/vendors/counter/waypoints-min.js"></script>
+<script src="assets/vendors/counter/counterup.min.js"></script>
+<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="assets/vendors/masonry/masonry.js"></script>
+<script src="assets/vendors/masonry/filter.js"></script>
+<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/contact.js"></script> 
+</body>
+
+</html>

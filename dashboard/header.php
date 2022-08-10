@@ -293,12 +293,12 @@ $photo = Student('photo', $_SESSION['st_loggedin'][0]['id']);
 		                </a>
 		            </li>
 
-					<li>
+					<!-- <li>
 						<a href="class.php" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Class Atendence</span>
 		                </a>
-		            </li>
+		            </li> -->
 				
 		            <li class="ttr-seperate"></li>
 

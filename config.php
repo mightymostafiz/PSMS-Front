@@ -22,13 +22,34 @@
         $count = $stm->rowCount();
         return $count;                                                    
     }
+
+    // Result count form students_result table
+    function ResultCount($id){
+        global $pdo;
+        $stm=$pdo->prepare("SELECT id FROM students_results WHERE st_id=?");
+        $stm->execute(array($id));
+        $count = $stm->rowCount();
+        return $count;
+    }
+
+
+
     // Get students data
     function Student($col,$id){
-       global $pdo;
-       $stm = $pdo->prepare("SELECT $col FROM students WHERE id=?");
-       $stm->execute(array($id));
-       $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-       return $result[0][$col];
+        global $pdo;
+        $stm=$pdo->prepare("SELECT $col FROM students WHERE id=?");
+        $stm->execute(array($id));
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $result[0][$col];
+    }
+
+    // Get students Mobile number
+    function StudentFromMobile($col,$mobile){
+        global $pdo;
+        $stm=$pdo->prepare("SELECT $col FROM students WHERE mobile=?");
+        $stm->execute(array($mobile));
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $result[0][$col];
     }
     
     //Get Subject Name

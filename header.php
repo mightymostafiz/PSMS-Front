@@ -1,15 +1,67 @@
 <?php 
-	session_start();
-	require_once('config.php');
+require_once('config.php');
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-	// $email_status =  Student('is_email_verified',$_SESSION['st_loggedin'][0]['id']); 
-	// $mobile_status =  Student('is_mobile_verified',$_SESSION['st_loggedin'][0]['id']); 
-
-	// if(!isset($_SESSION['st_loggedin']) OR $email_status != 1 OR $mobile_status != 1){
- //    	header('location:login.php'); 
-	// }
-?>	
+	<!-- META ============================================= -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
 	
+	<!-- DESCRIPTION -->
+	<meta name="description" content="PSMS - Primary School Management System" />
+	
+	<!-- OG -->
+	<meta property="og:title" content="PSMS - Primary School Management System" />
+	<meta property="og:description" content="PSMS - Primary School Management System" />
+	<meta property="og:image" content="" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- FAVICONS ICON ============================================= -->
+	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+	
+	<!-- PAGE TITLE HERE ============================================= -->
+	<title>PSMS - Primary School Management System</title>
+	
+	<!-- MOBILE SPECIFIC ============================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.min.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- All PLUGINS CSS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="assets/css/assets.css">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	
+	<!-- TYPOGRAPHY ============================================= -->
+	<link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+
+	
+	<!-- SHORTCODES ============================================= -->
+	<link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+	
+	<!-- STYLESHEETS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+	
+	<!-- REVOLUTION SLIDER CSS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/settings.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
+	<!-- REVOLUTION SLIDER END -->	
+</head>
+<body id="bg">
+<div class="page-wraper">
+<div id="loading-icon-bx"></div>
 	<!-- Header Top ==== -->
     <header class="header rs-nav">
 		<div class="top-bar">
@@ -18,7 +70,7 @@
 					<div class="topbar-left">
 						<ul>
 							<li><a href="faq-1.html"><i class="fa fa-question-circle"></i>Ask a Question</a></li>
-							<li><a href="javascript:;"><i class="fa fa-envelope-o"></i>hello@coderitsoluton.com</a></li>
+							<li><a href="javascript:;"><i class="far fa-envelope"></i>hello@coderitsolution.com</a></li>
 						</ul>
 					</div>
 					<div class="topbar-right">
@@ -31,6 +83,8 @@
 							<?php endif; ?>
 
 						</ul>
+
+						
 					</div>
 				</div>
 			</div>
@@ -40,7 +94,7 @@
                 <div class="container clearfix">
 					<!-- Header Logo ==== -->
 					<div class="menu-logo">
-						<a href="index.php"><img src="assets/images/logo.png" alt=""></a>
+						<a href="index.html"><img src="assets/images/logo.png" alt=""></a>
 					</div>
 					<!-- Mobile Nav Button ==== -->
                     <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,9 +106,9 @@
                     <div class="secondary-menu">
                         <div class="secondary-inner">
                             <ul>
-								<li><a href="javascript:;" class="btn-link"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="javascript:;" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
-								<li><a href="javascript:;" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
+								<li><a href="javascript:;" class="btn-link"><i class="fab fa-facebook"></i></a></li>
+								<li><a href="javascript:;" class="btn-link"><i class="fab fa-google-plus-g"></i></a></li>
+								<li><a href="javascript:;" class="btn-link"><i class="fab fa-linkedin"></i></a></li>
 								<!-- Search Button ==== -->
 								<li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>
 							</ul>
@@ -74,8 +128,7 @@
 							<a href="index.html"><img src="assets/images/logo.png" alt=""></a>
 						</div>
                         <ul class="nav navbar-nav">	
-							<li class="active"><a href="index.php">Home</a>
-							</li>
+							<li class="active"><a href="index.php">Home </a></li>
 							<li><a href="javascript:;">Pages <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu">
 									<li><a href="javascript:;">About<i class="fa fa-angle-right"></i></a>

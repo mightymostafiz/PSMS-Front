@@ -1,66 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php require_once('header.php');
 
-<head>
+if(isset($_POST['search_btn'])){
+	$class_id = $_POST['st_class'];
+	$st_mobile = $_POST['st_mobile'];
 
-	<!-- META ============================================= -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
-	<meta name="robots" content="" />
-	
-	<!-- DESCRIPTION -->
-	<meta name="description" content="PSMS - Primary School Management System" />
-	
-	<!-- OG -->
-	<meta property="og:title" content="PSMS - Primary School Management System" />
-	<meta property="og:description" content="PSMS - Primary School Management System" />
-	<meta property="og:image" content="" />
-	<meta name="format-detection" content="telephone=no">
-	
-	<!-- FAVICONS ICON ============================================= -->
-	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+	//Count Student
+	$st_count = stRowCount('mobile',$st_mobile);
 
-	<!-- Fontawasome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-	
-	
-	<!-- PAGE TITLE HERE ============================================= -->
-	<title>PSMS - Primary School Management System</title>
-	
-	<!-- MOBILE SPECIFIC ============================================= -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.min.js"></script>
-	<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-	
-	<!-- All PLUGINS CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/assets.css">
-	
-	<!-- TYPOGRAPHY ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/typography.css">
-	
-	<!-- SHORTCODES ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
-	
-	<!-- STYLESHEETS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-	
-	<!-- REVOLUTION SLIDER CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/layers.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/settings.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
-	<!-- REVOLUTION SLIDER END -->	
-</head>
-<body id="bg">
-<div class="page-wraper">
-<div id="loading-icon-bx"></div>
-	<?php require_once('header.php'); ?>
+	if(empty($class_id)){
+		$error = "Please Select Your Class Name!";
+	}
+	else if(empty($st_mobile)){
+		$error = "Please Enter Your Mobile Number!";
+	}
+	else if($st_count!=1){
+		$error = "Student Not Found!";
+	}
+	else{
+
+		$st_id = StudentFromMobile('id',$st_mobile);
+		$result_count = ResultCount($st_id);
+		if($result_count==1){ 
+			
+			$stm=$pdo->prepare("SELECT * FROM students_results WHERE st_id=?");
+			$stm->execute(array($st_id));
+			$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+
+		}
+		else{
+			$error = "Student Result Not Found!";
+		}
+	}
+
+}
+
+?>
+
+
     <!-- Content -->
     <div class="page-content bg-white">
         <!-- Main Slider -->
@@ -68,18 +45,88 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12 text-center text-white">
-							<h2>Primary School Management System</h2>
-							<h5>Own Your Feature Learning New Skills Online</h5>
-							<form class="cours-search">
+							<h3>Search Your Exam Result</h3>
+							<form class="cours-search" method="POST" action="">
+								<?php if(isset($error)) :?>
+								<div class="alert alert-danger"><?php echo $error;?></div>
+								<?php endif;?>
+
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="What do you want to learn today?	">
+									<select name="st_class" id="" class="form-control mb-5">
+										<option value="">Select Class</option>
+										<?php  
+											$stm = $pdo->prepare("SELECT id,class_name FROM class ORDER BY class_name ASC");
+											$stm->execute();
+											$classList = $stm->fetchAll(PDO::FETCH_ASSOC);
+											$i=1;
+											foreach($classList as $list) :
+										?>
+                                   		<option
+											<?php 
+											if(isset($_POST['select_class']) AND $_POST['select_class'] == $list['id']){
+												echo "selected";
+											}
+											?>
+											value="<?php echo $list['id'];?>"><?php echo $list['class_name'];?>
+										</option>
+										<?php endforeach;?>
+									</select>
+								</div>
+
+								<div class="input-group">
+									<input type="text" name="st_mobile" id="" class="form-control" placeholder="Student Mobile Number">
 									<div class="input-group-append">
-										<button class="btn" type="submit">Search</button> 
+										<button class="btn" name="search_btn" type="submit">Search</button> 
 									</div>
 								</div>
+
+								
 							</form>
 						</div>
 					</div>
+					<!-- show result -->
+					<?php if(isset($result)) : ?>
+					<div class="mw700 m-auto">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="cours-search-bx m-b30">
+									<div class="row">
+										<div class="col-md-12">
+											<img src="assets/images/psms-result.png" alt="">
+										</div>
+									</div>
+									<table class="table table-bordered">
+										<tr>
+											<td class="text-left" style="width:50%">Name</td>
+											<td><?php echo Student('name',$result[0]['st_id']); ?></td>
+										</tr>
+										<!-- problem -->
+										<?php
+										$subList = json_decode($result[0]['subjects'],true);
+										$length = count ($subList)/2;
+										for($a=1;$a<$length;$a++): ?>
+										<tr>
+											<td class="text-left"><?php echo $subList['subject_'.$a];?></td>
+											<td><?php echo $subList['subject_'.$a.'_marks'] ?></td>
+										</tr>
+										<?php endfor; ?>
+
+										<tr>
+											<td class="text-left">Total Marks</td>
+											<td><?php echo $result[0]['total_marks']; ?></td>
+										</tr>
+										<tr>
+											<td class="text-left">Position</td>
+											<td><?php echo $result[0]['position']; ?></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+
+
 					<div class="mw800 m-auto">
 						<div class="row">
 							<div class="col-md-4 col-sm-6">
@@ -401,27 +448,7 @@
         </div>
 		<!-- contact area END -->
     </div>
+    </div>
     <!-- Content END-->
-	<!-- Footer -->
-	<?php require_once('footer.php'); ?>
-    <button class="back-to-top fa fa-chevron-up" ></button>
-</div>
 
-<!-- External JavaScripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-<script src="assets/vendors/counter/waypoints-min.js"></script>
-<script src="assets/vendors/counter/counterup.min.js"></script>
-<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-<script src="assets/vendors/masonry/masonry.js"></script>
-<script src="assets/vendors/masonry/filter.js"></script>
-<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/contact.js"></script>
-</body>
-
-</html>
+<?php require_once('footer.php');?>
